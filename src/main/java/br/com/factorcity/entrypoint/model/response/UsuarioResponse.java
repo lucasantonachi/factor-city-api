@@ -1,0 +1,87 @@
+package br.com.factorcity.entrypoint.model.response;
+
+import br.com.factorcity.dataprovider.database.entity.PerfilTable;
+import br.com.factorcity.dataprovider.database.entity.UsuarioTable;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class UsuarioResponse {
+
+    private Long id;
+    private String email;
+    private String nome;
+    private Integer idade;
+    private Integer flagAtivo;
+    private List<PerfilTable> perfisUsuario;
+
+    public UsuarioResponse(UsuarioTable usuarioModel) {
+        this.id = usuarioModel.getIdUsuario();
+        this.email = usuarioModel.getEmailUsuario();
+        this.nome = usuarioModel.getNomeUsuario();
+        this.idade = usuarioModel.getIdadeUsuario();
+        this.flagAtivo = usuarioModel.getFlagAtivoUsuario();
+        this.perfisUsuario = usuarioModel.getPerfisUsuario();
+    }
+
+    public UsuarioResponse() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Integer getIdade() {
+        return idade;
+    }
+
+    public void setIdade(Integer idade) {
+        this.idade = idade;
+    }
+
+    public Integer getFlagAtivo() {
+        return flagAtivo;
+    }
+
+    public void setFlagAtivo(Integer flagAtivo) {
+        this.flagAtivo = flagAtivo;
+    }
+
+    public List<PerfilTable> getPerfisUsuario() {
+        return perfisUsuario;
+    }
+
+    public void setPerfisUsuario(List<PerfilTable> perfisUsuario) {
+        this.perfisUsuario = perfisUsuario;
+    }
+
+    public static Page<UsuarioResponse> converter(Page<UsuarioTable> usuarioBean) {
+        return usuarioBean.map(UsuarioResponse::new);
+    }
+
+    public static List<UsuarioResponse> converter(List<UsuarioTable> usuarioBean) {
+        return usuarioBean.stream().map(UsuarioResponse::new).collect(Collectors.toList());
+    }
+}

@@ -1,0 +1,1 @@
+Aplicação em Spring Boot, basta rodar o main da classe 'FactorCityApplication'
