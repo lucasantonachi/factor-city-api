@@ -31,14 +31,9 @@ public class LoginEndPoint {
     @PostMapping
     public ResponseEntity<?> autenticar(@RequestBody @Valid LoginRequest loginRequest){
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = loginRequest.converter();
+        Authentication authentication = autenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        String token = tokenService.gerarToken(authentication);
 
-        try{
-            Authentication authentication = autenticationManager.authenticate(usernamePasswordAuthenticationToken);
-            String token = tokenService.gerarToken(authentication);
-
-            return ResponseEntity.ok(new TokenResponse(token, "Bearer", authentication.getAuthorities()));
-        }catch (AuthenticationException e ){
-            return new ResponseEntity(new ErroApiResponse("Dados inválidos"), HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok(new TokenResponse(token, "Bearer", authentication.getAuthorities()));
     }
 }

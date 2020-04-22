@@ -82,19 +82,19 @@ public class ViagemRequest {
         this.duracaoViagem = duracaoViagem;
     }
 
-    public Long getVeiculoTable() {
+    public Long getIdVeiculo() {
         return idVeiculo;
     }
 
-    public void setVeiculoTable(Long veiculoTable) {
-        this.idVeiculo = veiculoTable;
+    public void setIdVeiculo(Long idVeiculo) {
+        this.idVeiculo = idVeiculo;
     }
 
-    public Long getPostoTable() {
+    public Long getIdPosto() {
         return idPosto;
     }
 
-    public void setPostoTable(Long postoTable) {
-        this.idPosto = postoTable;
+    public void setIdPosto(Long idPosto) {
+        this.idPosto = idPosto;
     }
 }

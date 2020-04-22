@@ -59,8 +59,8 @@ public class ViagemUseCase {
 
         try {
             ViagemTable viagemTable = ViagemMapper.requestToTable(viagemRequest);
-            viagemTable.setPostoTable(postoUseCase.getById(viagemRequest.getPostoTable()));
-            viagemTable.setVeiculoTable(veiculoUseCase.getById(viagemRequest.getVeiculoTable()));
+            viagemTable.setPostoTable(postoUseCase.getById(viagemRequest.getIdPosto()));
+            viagemTable.setVeiculoTable(veiculoUseCase.getById(viagemRequest.getIdVeiculo()));
             viagemRepository.save(viagemTable);
             return viagemTable;
 
