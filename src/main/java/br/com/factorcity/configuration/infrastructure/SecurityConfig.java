@@ -49,7 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**").permitAll() //TODO: tirar em prod e implementar os bloqueios
+                .antMatchers("/auth").permitAll()
+                .anyRequest().authenticated() //TODO: implementar regra de autorização
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().headers().frameOptions().sameOrigin()
