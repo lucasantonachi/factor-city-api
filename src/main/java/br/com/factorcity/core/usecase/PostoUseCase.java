@@ -60,4 +60,12 @@ public class PostoUseCase {
             throw new CombustivelInvalidoException();
         }
     }
+
+    public boolean existById(Long id) {
+        if (postoRepository.existsById(id)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

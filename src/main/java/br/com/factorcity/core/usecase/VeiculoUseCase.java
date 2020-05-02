@@ -69,7 +69,7 @@ public class VeiculoUseCase {
     }
 
     public boolean existById(Long id) {
-        if (veiculoRepository.existsByIdVeiculo(id)) {
+        if (veiculoRepository.existsById(id)) {
             return true;
         } else {
             return false;

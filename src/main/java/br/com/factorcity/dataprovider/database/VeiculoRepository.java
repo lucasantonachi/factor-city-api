@@ -8,7 +8,5 @@ import java.util.List;
 
 public interface VeiculoRepository extends JpaRepository<VeiculoTable, Long> {
 
-    public boolean existsByIdVeiculo(Long id);
-
     public List<VeiculoTable> findAllByUsuarioTable(UsuarioTable usuarioTable);
 }

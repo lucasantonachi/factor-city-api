@@ -122,7 +122,7 @@ public class UsuarioUseCase {
     }
 
     public boolean existById(Long id) {
-        if (usuarioRepository.existsByIdUsuario(id)) {
+        if (usuarioRepository.existsById(id)) {
             return true;
         } else {
             return false;
