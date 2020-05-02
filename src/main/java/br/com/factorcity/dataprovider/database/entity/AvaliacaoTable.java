@@ -20,8 +20,8 @@ public class AvaliacaoTable {
     @Column(name = "AV_NR_PONTUACAO")
     private Integer pontuacao;
 
-    public AvaliacaoTable(Long idUsurio, Long idPosto, Integer pontuacao) {
-        this.idUsuario = idUsurio;
+    public AvaliacaoTable(Long idUsuario, Long idPosto, Integer pontuacao) {
+        this.idUsuario = idUsuario;
         this.idPosto = idPosto;
         this.pontuacao = pontuacao;
     }
@@ -29,12 +29,12 @@ public class AvaliacaoTable {
     public AvaliacaoTable() {
     }
 
-    public Long getIdUsurio() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsurio(Long idUsurio) {
-        this.idUsuario = idUsurio;
+    public void setIdUsurio(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public Long getIdPosto() {

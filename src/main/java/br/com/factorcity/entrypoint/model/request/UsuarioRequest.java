@@ -1,7 +1,5 @@
 package br.com.factorcity.entrypoint.model.request;
 
-import br.com.factorcity.dataprovider.database.UsuarioRepository;
-import br.com.factorcity.dataprovider.database.entity.UsuarioTable;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -74,14 +72,5 @@ public class UsuarioRequest {
 
     public void setIdade(int idade) {
         this.idade = idade;
-    }
-
-    public UsuarioTable atualizar(Long id, UsuarioRepository usuarioRepository){
-        UsuarioTable usuarioModel = usuarioRepository.getOne(id);
-        usuarioModel.setEmailUsuario(this.email);
-        usuarioModel.setNomeUsuario(this.nome);
-        usuarioModel.setIdadeUsuario(this.idade);
-
-        return usuarioModel;
     }
 }

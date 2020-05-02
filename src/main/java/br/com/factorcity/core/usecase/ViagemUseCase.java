@@ -31,10 +31,10 @@ public class ViagemUseCase {
     @Resource(name = "PostoUseCase")
     private PostoUseCase postoUseCase;
 
-    public Page<ViagemResponse> getAll(Pageable paginacao){
+    public Page<ViagemTable> getAll(Pageable paginacao){
 
         Page<ViagemTable> viagemResponses = viagemRepository.findAll(paginacao);
-        return ViagemResponse.converter(viagemResponses);
+        return viagemResponses;
     }
 
     public ViagemTable getById(Long id) {
@@ -47,11 +47,11 @@ public class ViagemUseCase {
         }
     }
 
-    public List<ViagemResponse> getAllByVeiculo(Long id) {
+    public List<ViagemTable> getAllByVeiculo(Long id) {
 
         VeiculoTable veiculoTable = veiculoUseCase.getById(id);
         List<ViagemTable> listViagens = viagemRepository.findAllByVeiculoTable(veiculoTable);
-        return ViagemResponse.converter(listViagens);
+        return listViagens;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

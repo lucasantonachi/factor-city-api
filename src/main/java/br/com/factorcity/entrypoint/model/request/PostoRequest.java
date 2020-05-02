@@ -1,63 +1,44 @@
-package br.com.factorcity.dataprovider.database.entity;
+package br.com.factorcity.entrypoint.model.request;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "TB_POSTO")
-public class PostoTable {
+public class PostoRequest {
 
-    @Id
-    @SequenceGenerator(name = "posto", sequenceName = "sq_tbl_posto", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "posto")
-    @Column(name = "PT_ID_POSTO")
-    private Long idPosto;
-
-    @Column(name = "PT_DS_NOME")
+    @NotNull
+    @NotEmpty
     private String nomePosto;
 
-    @Column(name = "PT_LT_POSTO")
+    @NotNull
+    @NotEmpty
     private String latitudePosto;
 
-    @Column(name = "PT_LG_POSTO")
+    @NotNull
+    @NotEmpty
     private String longitudePosto;
 
-    @Column(name = "PT_NR_AVALIACAO")
+    @NotNull
     private Integer avaliacaoPosto;
 
-    @Column(name = "PT_PR_GASOLINA")
+    @NotNull
     private BigDecimal precoGasolina;
 
-    @Column(name = "PT_PR_ETANOL")
+    @NotNull
     private BigDecimal precoEtanol;
 
-    @Column(name = "PT_PR_DIESEL")
+    @NotNull
     private BigDecimal precoDiesel;
 
-    @Column(name = "PT_PR_GAS")
+    @NotNull
     private BigDecimal precoGas;
 
-    public PostoTable(String nomePosto, String latitudePosto, String longitudePosto, Integer avaliacaoPosto, BigDecimal precoGasolina,
-                      BigDecimal precoEtanol, BigDecimal precoDiesel, BigDecimal precoGas) {
-        this.latitudePosto = latitudePosto;
-        this.longitudePosto = longitudePosto;
-        this.avaliacaoPosto = avaliacaoPosto;
-        this.precoGasolina = precoGasolina;
-        this.precoEtanol = precoEtanol;
-        this.precoDiesel = precoDiesel;
-        this.precoGas = precoGas;
+    public String getNomePosto() {
+        return nomePosto;
+    }
+
+    public void setNomePosto(String nomePosto) {
         this.nomePosto = nomePosto;
-    }
-
-    public PostoTable() {
-    }
-
-    public Long getIdPosto() {
-        return idPosto;
-    }
-
-    public void setIdPosto(Long idPosto) {
-        this.idPosto = idPosto;
     }
 
     public String getLatitudePosto() {
@@ -114,13 +95,5 @@ public class PostoTable {
 
     public void setPrecoGas(BigDecimal precoGas) {
         this.precoGas = precoGas;
-    }
-
-    public String getNomePosto() {
-        return nomePosto;
-    }
-
-    public void setNomePosto(String nomePosto) {
-        this.nomePosto = nomePosto;
     }
 }

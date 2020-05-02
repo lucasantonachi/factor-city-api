@@ -95,4 +95,10 @@ public class RestExceptionHandler {
         return new ErroApiResponse("Dados inválidos");
     }
 
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ExceptionHandler(UsuarioJaExisteException.class)
+    public ErroApiResponse handleAuthenticationException(UsuarioJaExisteException exception) {
+        exception.printStackTrace();
+        return new ErroApiResponse(exception.getMessage());
+    }
 }

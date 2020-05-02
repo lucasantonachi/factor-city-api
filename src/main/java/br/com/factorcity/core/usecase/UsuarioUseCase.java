@@ -1,10 +1,11 @@
 package br.com.factorcity.core.usecase;
 
+import br.com.factorcity.configuration.exception.UsuarioJaExisteException;
 import br.com.factorcity.configuration.exception.UsuarioNaoEncontradoException;
+import br.com.factorcity.core.service.SenhaService;
 import br.com.factorcity.dataprovider.database.UsuarioRepository;
 import br.com.factorcity.dataprovider.database.entity.UsuarioTable;
 import br.com.factorcity.entrypoint.mapper.UsuarioMapper;
-import br.com.factorcity.entrypoint.model.response.UsuarioResponse;
 import br.com.factorcity.entrypoint.model.request.UsuarioRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,13 +26,13 @@ public class UsuarioUseCase {
     @Resource(name = "PerfilUseCase")
     private PerfilUseCase perfilUseCase;
 
-    @Resource(name = "SenhaUseCase")
-    private SenhaUseCase senhaUseCase;
+    @Autowired
+    private SenhaService senhaService;
 
-    public Page<UsuarioResponse> getAll(Pageable paginacao){
+    public Page<UsuarioTable> getAll(Pageable paginacao){
 
         Page<UsuarioTable> usuarioModel = usuarioRepository.findAll(paginacao);
-        return UsuarioResponse.converter(usuarioModel);
+        return usuarioModel;
     }
 
     public UsuarioTable getById(Long id) {
@@ -45,11 +46,11 @@ public class UsuarioUseCase {
         }
     }
 
-    public Page<UsuarioResponse> getByEmail(Pageable paginacao, String param) {
+    public Page<UsuarioTable> getByEmail(Pageable paginacao, String param) {
 
         if(usuarioRepository.existsByEmailUsuarioLikeIgnoreCase(param + "%")){
             Page<UsuarioTable> individuoAbordadoModel =  usuarioRepository.findAllByEmailUsuarioLikeIgnoreCase(paginacao,param + "%");
-            return UsuarioResponse.converter(individuoAbordadoModel);
+            return individuoAbordadoModel;
         } else{
             throw new UsuarioNaoEncontradoException();
         }
@@ -58,20 +59,27 @@ public class UsuarioUseCase {
     @Transactional(propagation = Propagation.REQUIRED)
     public UsuarioTable createUser(UsuarioRequest usuarioForm) {
 
-        UsuarioTable usuarioModel = UsuarioMapper.requestToTable(usuarioForm);
-        usuarioModel.setFlagAtivoUsuario(1);
-        usuarioModel.setSenhaUsuario(senhaUseCase.gerarSenhaCriptorgradada(usuarioForm.getSenha()));
-        usuarioModel.setPerfisUsuario(this.perfilUseCase.popularPerfis(usuarioForm.getPerfisUsuario()));
-        usuarioRepository.save(usuarioModel);
-        return usuarioModel;
+        if(!existByEmail(usuarioForm.getEmail())){
+            UsuarioTable usuarioModel = UsuarioMapper.requestToTable(usuarioForm);
+            usuarioModel.setFlagAtivoUsuario(1);
+            usuarioModel.setSenhaUsuario(senhaService.gerarSenhaCriptorgradada(usuarioForm.getSenha()));
+            usuarioModel.setPerfisUsuario(this.perfilUseCase.popularPerfis(usuarioForm.getPerfisUsuario()));
+            usuarioRepository.save(usuarioModel);
+            return usuarioModel;
+        }else{
+            throw new UsuarioJaExisteException();
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UsuarioTable updateUser(Long id, UsuarioRequest usuarioFORM) {
 
         if(existById(id)){
-            UsuarioTable usuarioBean = usuarioFORM.atualizar(id, usuarioRepository);
-            usuarioBean.setSenhaUsuario(senhaUseCase.gerarSenhaCriptorgradada(usuarioFORM.getSenha()));
+            UsuarioTable usuarioBean = getById(id);
+            usuarioBean.setEmailUsuario(usuarioFORM.getEmail());
+            usuarioBean.setNomeUsuario(usuarioFORM.getNome());
+            usuarioBean.setIdadeUsuario(usuarioFORM.getIdade());
+            usuarioBean.setSenhaUsuario(senhaService.gerarSenhaCriptorgradada(usuarioFORM.getSenha()));
             usuarioBean.setPerfisUsuario(this.perfilUseCase.popularPerfis(usuarioFORM.getPerfisUsuario()));
             return usuarioBean;
         }else {
@@ -105,9 +113,8 @@ public class UsuarioUseCase {
         }
     }
 
-    public boolean existByEmail(UsuarioRequest usuarioFORM) {
-        UsuarioTable usuarioModel = UsuarioMapper.requestToTable(usuarioFORM);
-        if (usuarioRepository.existsByEmailUsuario(usuarioModel.getEmailUsuario())) {
+    public boolean existByEmail(String email) {
+        if (usuarioRepository.existsByEmailUsuario(email)) {
             return true;
         } else {
             return false;

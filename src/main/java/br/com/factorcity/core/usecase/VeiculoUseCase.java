@@ -29,10 +29,10 @@ public class VeiculoUseCase {
     @Resource(name = "UsuarioUserCase")
     private UsuarioUseCase usuarioUseCase;
 
-    public Page<VeiculoResponse> getAll(Pageable paginacao){
+    public Page<VeiculoTable> getAll(Pageable paginacao){
 
         Page<VeiculoTable> veiculoTable = veiculoRepository.findAll(paginacao);
-        return VeiculoResponse.converter(veiculoTable);
+        return veiculoTable;
     }
 
     public VeiculoTable getById(Long id) {
@@ -45,17 +45,18 @@ public class VeiculoUseCase {
         }
     }
 
-    public List<VeiculoResponse> getAllByUsuario(Long id) {
+    public List<VeiculoTable> getAllByUsuario(Long id) {
 
         UsuarioTable usuario = usuarioUseCase.getById(id);
         List<VeiculoTable> listVeiculos = veiculoRepository.findAllByUsuarioTable(usuario);
-        return VeiculoResponse.converter(listVeiculos);
+        return listVeiculos;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public VeiculoTable createVeiculo(VeiculoRequest veiculoRequest) {
 
         try {
+            //TODO: criar lógica para validar se já existe
             VeiculoTable veiculoTable = VeiculoMapper.requestToTable(veiculoRequest);
             veiculoTable.setTipoCombustivel(TipoCombustivel.valueOf(veiculoRequest.getTipoCombustivel()));
             veiculoTable.setUsuarioTable(usuarioUseCase.getById(veiculoRequest.getUsuarioTable()));

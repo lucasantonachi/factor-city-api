@@ -3,11 +3,8 @@ package br.com.factorcity.entrypoint.model.response;
 import br.com.factorcity.dataprovider.database.entity.PostoTable;
 import br.com.factorcity.dataprovider.database.entity.VeiculoTable;
 import br.com.factorcity.dataprovider.database.entity.ViagemTable;
-import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ViagemResponse {
 
@@ -31,6 +28,21 @@ public class ViagemResponse {
         this.duracaoViagem = viagemTable.getDuracaoViagem();
         this.veiculoTable = viagemTable.getVeiculoTable();
         this.postoTable = viagemTable.getPostoTable();
+    }
+
+    public ViagemResponse(Long idViagem, String latitudeOrigemViagem, String longitudeOrigemViagem, String latitudeDestinoViagem,
+                          String longitudeDestinoViagem, BigDecimal distanciaViagem, Integer duracaoViagem, VeiculoTable veiculoTable,
+                          PostoTable postoTable) {
+
+        this.idViagem = idViagem;
+        this.latitudeOrigemViagem = latitudeOrigemViagem;
+        this.longitudeOrigemViagem = longitudeOrigemViagem;
+        this.latitudeDestinoViagem = latitudeDestinoViagem;
+        this.longitudeDestinoViagem = longitudeDestinoViagem;
+        this.distanciaViagem = distanciaViagem;
+        this.duracaoViagem = duracaoViagem;
+        this.veiculoTable = veiculoTable;
+        this.postoTable = postoTable;
     }
 
     public ViagemResponse() {
@@ -106,13 +118,5 @@ public class ViagemResponse {
 
     public void setPostoTable(PostoTable postoTable) {
         this.postoTable = postoTable;
-    }
-
-    public static Page<ViagemResponse> converter(Page<ViagemTable> viagemTables) {
-        return viagemTables.map(ViagemResponse::new);
-    }
-
-    public static List<ViagemResponse> converter(List<ViagemTable> veiculoTables) {
-        return veiculoTables.stream().map(ViagemResponse::new).collect(Collectors.toList());
     }
 }

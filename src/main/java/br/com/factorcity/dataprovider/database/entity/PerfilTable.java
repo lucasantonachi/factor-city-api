@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "TB_PERFILL")
+@Table(name = "TB_PERFIL")
 public class PerfilTable implements GrantedAuthority {
 
     @Id

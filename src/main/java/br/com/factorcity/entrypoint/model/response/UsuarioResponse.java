@@ -2,10 +2,8 @@ package br.com.factorcity.entrypoint.model.response;
 
 import br.com.factorcity.dataprovider.database.entity.PerfilTable;
 import br.com.factorcity.dataprovider.database.entity.UsuarioTable;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UsuarioResponse {
 
@@ -25,8 +23,13 @@ public class UsuarioResponse {
         this.perfisUsuario = usuarioModel.getPerfisUsuario();
     }
 
-    public UsuarioResponse() {
-
+    public UsuarioResponse(Long id, String email, String nome, Integer idade, Integer flagAtivo, List<PerfilTable> perfisUsuario) {
+        this.id = id;
+        this.email = email;
+        this.nome = nome;
+        this.idade = idade;
+        this.flagAtivo = flagAtivo;
+        this.perfisUsuario = perfisUsuario;
     }
 
     public Long getId() {
@@ -77,11 +80,4 @@ public class UsuarioResponse {
         this.perfisUsuario = perfisUsuario;
     }
 
-    public static Page<UsuarioResponse> converter(Page<UsuarioTable> usuarioBean) {
-        return usuarioBean.map(UsuarioResponse::new);
-    }
-
-    public static List<UsuarioResponse> converter(List<UsuarioTable> usuarioBean) {
-        return usuarioBean.stream().map(UsuarioResponse::new).collect(Collectors.toList());
-    }
 }

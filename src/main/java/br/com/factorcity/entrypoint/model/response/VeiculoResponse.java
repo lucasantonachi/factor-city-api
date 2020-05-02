@@ -3,11 +3,8 @@ package br.com.factorcity.entrypoint.model.response;
 import br.com.factorcity.core.usecase.enums.TipoCombustivel;
 import br.com.factorcity.dataprovider.database.entity.UsuarioTable;
 import br.com.factorcity.dataprovider.database.entity.VeiculoTable;
-import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class VeiculoResponse {
 
@@ -25,6 +22,16 @@ public class VeiculoResponse {
         this.tipoCombustivel = veiculoTable.getTipoCombustivel();
         this.consumoVeiculo = veiculoTable.getConsumoVeiculo();
         this.usuarioTable = veiculoTable.getUsuarioTable();
+    }
+
+    public VeiculoResponse(Long idVeiculo, String marcaVeiculo, String modeloVeiculo, TipoCombustivel tipoCombustivel,
+                           BigDecimal consumoVeiculo, UsuarioTable usuarioTable) {
+        this.idVeiculo = idVeiculo;
+        this.marcaVeiculo = marcaVeiculo;
+        this.modeloVeiculo = modeloVeiculo;
+        this.tipoCombustivel = tipoCombustivel;
+        this.consumoVeiculo = consumoVeiculo;
+        this.usuarioTable = usuarioTable;
     }
 
     public VeiculoResponse() {
@@ -79,11 +86,5 @@ public class VeiculoResponse {
         this.usuarioTable = usuarioTable;
     }
 
-    public static Page<VeiculoResponse> converter(Page<VeiculoTable> veiculoTable) {
-        return veiculoTable.map(VeiculoResponse::new);
-    }
 
-    public static List<VeiculoResponse> converter(List<VeiculoTable> veiculoTables) {
-        return veiculoTables.stream().map(VeiculoResponse::new).collect(Collectors.toList());
-    }
 }

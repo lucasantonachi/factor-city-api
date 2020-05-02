@@ -40,7 +40,8 @@ public class ViagemTable {
     @JoinColumn(name = "FK_POSTO")
     private PostoTable postoTable;
 
-    public ViagemTable(String latitudeOrigemViagem, String longitudeOrigemViagem, String latitudeDestinoViagem, String longitudeDestinoViagem, BigDecimal distanciaViagem, Integer duracaoViagem) {
+    public ViagemTable(String latitudeOrigemViagem, String longitudeOrigemViagem, String latitudeDestinoViagem,
+                       String longitudeDestinoViagem, BigDecimal distanciaViagem, Integer duracaoViagem) {
         this.latitudeOrigemViagem = latitudeOrigemViagem;
         this.longitudeOrigemViagem = longitudeOrigemViagem;
         this.latitudeDestinoViagem = latitudeDestinoViagem;

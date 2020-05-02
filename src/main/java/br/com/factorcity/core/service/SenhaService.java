@@ -1,10 +1,10 @@
-package br.com.factorcity.core.usecase;
+package br.com.factorcity.core.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service("SenhaUseCase")
-public class SenhaUseCase {
+@Service
+public class SenhaService {
 
     public String gerarSenhaCriptorgradada(String senha){
         BCryptPasswordEncoder s = new BCryptPasswordEncoder();

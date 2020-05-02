@@ -2,6 +2,7 @@ package br.com.factorcity.entrypoint.controller;
 
 import br.com.factorcity.core.usecase.UsuarioUseCase;
 import br.com.factorcity.dataprovider.database.entity.UsuarioTable;
+import br.com.factorcity.entrypoint.mapper.UsuarioMapper;
 import br.com.factorcity.entrypoint.model.response.ErroApiResponse;
 import br.com.factorcity.entrypoint.model.response.SucessoResponse;
 import br.com.factorcity.entrypoint.model.response.UsuarioResponse;
@@ -21,51 +22,46 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioEndPoint {
+public class UsuarioController {
 
     @Resource(name = "UsuarioUserCase")
     private UsuarioUseCase usuarioUseCase;
 
     @GetMapping
     public ResponseEntity<Page<UsuarioResponse>> getAll(@PageableDefault(sort = "idUsuario", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
-        Page<UsuarioResponse> list = this.usuarioUseCase.getAll(paginacao);
-        return new ResponseEntity(list, HttpStatus.OK);
+        Page<UsuarioTable> list = this.usuarioUseCase.getAll(paginacao);
+        return new ResponseEntity(UsuarioMapper.tablePageToResponsePage(list), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponse> getById(@PathVariable Long id) {
 
         UsuarioTable usuario = this.usuarioUseCase.getById(id);
-        return ResponseEntity.ok(new UsuarioResponse(usuario));
+        return ResponseEntity.ok(UsuarioMapper.tableToResponse(usuario));
     }
 
     @GetMapping("/email")
     public ResponseEntity<Page<UsuarioResponse>> getByEmail(@PageableDefault(sort = "idUsuario", direction = Sort.Direction.ASC, page = 0, size = 20) Pageable paginacao, @RequestParam String sc) {
 
-        Page<UsuarioResponse> individuo = usuarioUseCase.getByEmail(paginacao, sc);
-        return new ResponseEntity(individuo, HttpStatus.OK);
+        Page<UsuarioTable> individuo = usuarioUseCase.getByEmail(paginacao, sc);
+        return new ResponseEntity(UsuarioMapper.tablePageToResponsePage(individuo), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<UsuarioResponse> createUser(@RequestBody @Valid UsuarioRequest usuarioFORM, UriComponentsBuilder uriComponentsBuilder) {
 
-        if (!this.usuarioUseCase.existByEmail(usuarioFORM)) {
+        UsuarioTable usuarioBean = this.usuarioUseCase.createUser(usuarioFORM);
 
-            UsuarioTable usuarioBean = this.usuarioUseCase.createUser(usuarioFORM);
-
-            URI uri = uriComponentsBuilder.path("/usuario/{idUsuario}")
-                        .buildAndExpand(usuarioBean.getIdUsuario()).toUri();
-            return ResponseEntity.created(uri).body(new UsuarioResponse(usuarioBean));
-        } else {
-            return new ResponseEntity(new ErroApiResponse("Cpf já existe"), HttpStatus.CONFLICT);
-        }
+        URI uri = uriComponentsBuilder.path("/usuario/{idUsuario}")
+                .buildAndExpand(usuarioBean.getIdUsuario()).toUri();
+        return ResponseEntity.created(uri).body(UsuarioMapper.tableToResponse(usuarioBean));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponse> atualizarUsuario(@PathVariable Long id, @RequestBody @Valid UsuarioRequest usuarioFORM) {
 
         UsuarioTable usuarioAtualizado = this.usuarioUseCase.updateUser(id, usuarioFORM);
-        return ResponseEntity.ok(new UsuarioResponse(usuarioAtualizado));
+        return ResponseEntity.ok(UsuarioMapper.tableToResponse(usuarioAtualizado));
     }
 
     @PutMapping("/ativar/{id}")
