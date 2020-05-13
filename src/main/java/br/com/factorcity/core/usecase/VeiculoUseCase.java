@@ -67,12 +67,4 @@ public class VeiculoUseCase {
             throw new CombustivelInvalidoException();
         }
     }
-
-    public boolean existById(Long id) {
-        if (veiculoRepository.existsById(id)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

@@ -74,43 +74,31 @@ public class UsuarioUseCase {
     @Transactional(propagation = Propagation.REQUIRED)
     public UsuarioTable updateUser(Long id, UsuarioRequest usuarioFORM) {
 
-        if(existById(id)){
-            UsuarioTable usuarioBean = getById(id);
-            usuarioBean.setEmailUsuario(usuarioFORM.getEmail());
-            usuarioBean.setNomeUsuario(usuarioFORM.getNome());
-            usuarioBean.setIdadeUsuario(usuarioFORM.getIdade());
-            usuarioBean.setSenhaUsuario(senhaService.gerarSenhaCriptorgradada(usuarioFORM.getSenha()));
-            usuarioBean.setPerfisUsuario(this.perfilUseCase.popularPerfis(usuarioFORM.getPerfisUsuario()));
-            return usuarioBean;
-        }else {
-            throw new UsuarioNaoEncontradoException();
-        }
+        UsuarioTable usuarioBean = getById(id);
+        usuarioBean.setEmailUsuario(usuarioFORM.getEmail());
+        usuarioBean.setNomeUsuario(usuarioFORM.getNome());
+        usuarioBean.setIdadeUsuario(usuarioFORM.getIdade());
+        usuarioBean.setSenhaUsuario(senhaService.gerarSenhaCriptorgradada(usuarioFORM.getSenha()));
+        usuarioBean.setPerfisUsuario(this.perfilUseCase.popularPerfis(usuarioFORM.getPerfisUsuario()));
+        return usuarioBean;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UsuarioTable inactivateUser(Long id) {
 
-        if(existById(id)){
-        UsuarioTable usuarioBean = usuarioRepository.getOne(id);
+        UsuarioTable usuarioBean = getById(id);
         usuarioBean.setFlagAtivoUsuario(0);
         usuarioRepository.save(usuarioBean);
         return usuarioBean;
-        }else {
-            throw new UsuarioNaoEncontradoException();
-        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UsuarioTable activateUser(Long id) {
 
-        if(existById(id)){
-        UsuarioTable usuarioBean = usuarioRepository.getOne(id);
+        UsuarioTable usuarioBean = getById(id);
         usuarioBean.setFlagAtivoUsuario(1);
         usuarioRepository.save(usuarioBean);
         return usuarioBean;
-        } else {
-            throw new UsuarioNaoEncontradoException();
-        }
     }
 
     public boolean existByEmail(String email) {
