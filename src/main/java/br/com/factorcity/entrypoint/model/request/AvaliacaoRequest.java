@@ -11,6 +11,7 @@ public class AvaliacaoRequest {
     private Long idPosto;
 
     @NotNull
+//    @Size(min = 11, max = 11)
     private Integer pontuacao;
 
     public Long getIdUsuario() {
