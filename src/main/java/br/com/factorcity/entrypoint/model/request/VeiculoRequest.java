@@ -57,12 +57,11 @@ public class VeiculoRequest {
         this.consumoVeiculo = consumoVeiculo;
     }
 
-    public Long getUsuarioTable() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setUsuarioTable(Long usuarioTable) {
-        this.idUsuario = usuarioTable;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
-
 }

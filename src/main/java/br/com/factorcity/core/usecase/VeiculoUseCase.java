@@ -59,7 +59,7 @@ public class VeiculoUseCase {
             //TODO: criar lógica para validar se já existe
             VeiculoTable veiculoTable = VeiculoMapper.requestToTable(veiculoRequest);
             veiculoTable.setTipoCombustivel(TipoCombustivel.valueOf(veiculoRequest.getTipoCombustivel()));
-            veiculoTable.setUsuarioTable(usuarioUseCase.getById(veiculoRequest.getUsuarioTable()));
+            veiculoTable.setUsuarioTable(usuarioUseCase.getById(veiculoRequest.getIdUsuario()));
             veiculoRepository.save(veiculoTable);
             return veiculoTable;
 
