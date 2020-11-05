@@ -11,5 +11,5 @@ public class FactorCityApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FactorCityApplication.class, args);
 	}
-
+ 
 }
